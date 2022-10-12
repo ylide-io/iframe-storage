@@ -1,6 +1,11 @@
 import { BrowserLocalStorage } from '@ylide/sdk';
 
-const domainsWhitelist = ['http://localhost:3000', 'https://mail.ylide.io', 'https://frame.ylide.io'];
+const domainsWhitelist = [
+	'http://localhost:3000',
+	'https://mail.ylide.io',
+	'https://frame.ylide.io',
+	'https://staging.ylide.io',
+];
 
 async function check() {
 	if (!window.top) {
