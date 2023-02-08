@@ -1,10 +1,12 @@
-import { BrowserLocalStorage } from '@ylide/sdk';
+import { BrowserLocalStorage } from './BrowserLocalStorage';
 
 const domainsWhitelist = [
 	'http://localhost:3000',
+	'http://10.14.14.157:3000',
 	'https://mail.ylide.io',
 	'https://frame.ylide.io',
 	'https://staging.ylide.io',
+	'https://hub.ylide.io',
 ];
 
 async function check() {
@@ -69,7 +71,7 @@ async function init() {
 				initedOrigin = ev.origin;
 				sendMsg('handshake-success');
 			} else {
-				console.error(`You can't access Ylide storage from inappropriate domain`);
+				console.error(`You can't access Ylide storage from inappropriate domain (${ev.origin})`);
 			}
 		} else {
 			// some bullshit received
