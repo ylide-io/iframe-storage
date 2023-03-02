@@ -6,6 +6,7 @@ const domainsWhitelist = [
 	'https://mail.ylide.io',
 	'https://frame.ylide.io',
 	'https://staging.ylide.io',
+	'https://otc.ylide.io',
 	'https://hub.ylide.io',
 ];
 
