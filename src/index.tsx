@@ -7,18 +7,23 @@ const domainsWhitelist = [
 	'https://frame.ylide.io',
 	'https://staging.ylide.io',
 	'https://otc.ylide.io',
+	'https://airswap.ylide.io',
+	'https://1inch.ylide.io',
+	'https://paraswap.ylide.io',
 	'https://hub.ylide.io',
 ];
 
+const parentWindow = window.parent;
+
 async function check() {
-	if (!window.top) {
+	if (!parentWindow) {
 		throw new Error('Ylide Iframe must be loaded in iframe (apparently)');
 	}
 
 	let wasCatch = false;
 	let probe;
 	try {
-		probe = window.top.location.href;
+		probe = parentWindow.location.href;
 	} catch (err) {
 		wasCatch = true;
 	}
@@ -37,7 +42,7 @@ async function init() {
 	let initedOrigin: string | null = null;
 
 	const sendMsg = (type: string, data?: any, objectToTransfer?: Transferable | null) => {
-		window.top!.postMessage(
+		parentWindow!.postMessage(
 			{
 				type,
 				data,
@@ -64,10 +69,10 @@ async function init() {
 	};
 
 	window.onmessage = ev => {
-		// console.log('irf: ', ev.origin, ev.data, ev.source === window.top, domainsWhitelist.includes(ev.origin));
-		if (initedOrigin && ev.source === window.top && ev.origin === initedOrigin) {
+		// console.log('irf: ', ev.origin, ev.data, ev.source === parentWindow, domainsWhitelist.includes(ev.origin));
+		if (initedOrigin && ev.source === parentWindow && ev.origin === initedOrigin) {
 			handleMessage(ev.data);
-		} else if (ev.source === window.top && ev.data && ev.data.type === 'handshake-bond') {
+		} else if (ev.source === parentWindow && ev.data && ev.data.type === 'handshake-bond') {
 			if (domainsWhitelist.includes(ev.origin)) {
 				initedOrigin = ev.origin;
 				sendMsg('handshake-success');
@@ -79,7 +84,7 @@ async function init() {
 		}
 	};
 
-	window.top!.postMessage(
+	parentWindow!.postMessage(
 		{
 			type: 'handshake-start',
 		},
