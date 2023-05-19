@@ -11,6 +11,7 @@ const domainsWhitelist = [
 	'https://1inch.ylide.io',
 	'https://paraswap.ylide.io',
 	'https://hub.ylide.io',
+	'https://mainview.io',
 ];
 
 const parentWindow = window.parent;
