@@ -38,4 +38,13 @@ export class BrowserLocalStorage {
 			return false;
 		}
 	}
+
+	async getKeys(): Promise<string[]> {
+		return Object.keys(localStorage);
+	}
+
+	async delete(key: string): Promise<boolean> {
+		localStorage.removeItem(key);
+		return true;
+	}
 }

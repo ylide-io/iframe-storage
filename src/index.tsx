@@ -12,6 +12,7 @@ const domainsWhitelist = [
 	'https://paraswap.ylide.io',
 	'https://hub.ylide.io',
 	'https://mainview.io',
+	'https://app.mainview.io',
 ];
 
 const parentWindow = window.parent;
@@ -65,6 +66,14 @@ async function init() {
 		} else if (msg.type === 'storeBytes') {
 			const { reqId, key, bytes } = msg.data as { reqId: string; key: string; bytes: Uint8Array };
 			const result = await storage.storeBytes(key, bytes);
+			sendMsg('op-done', { reqId, result });
+		} else if (msg.type === 'getKeys') {
+			const { reqId } = msg.data as { reqId: string };
+			const result = await storage.getKeys();
+			sendMsg('op-done', { reqId, result });
+		} else if (msg.type === 'delete') {
+			const { reqId, key } = msg.data as { reqId: string; key: string };
+			const result = await storage.delete(key);
 			sendMsg('op-done', { reqId, result });
 		}
 	};
